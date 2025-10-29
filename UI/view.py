@@ -1,4 +1,6 @@
 import flet as ft
+from flet.core.elevated_button import ElevatedButton
+
 from UI.alert import AlertManager
 
 '''
@@ -63,7 +65,8 @@ class View:
         pulsante_conferma_responsabile = ft.ElevatedButton("Conferma", on_click=self.controller.conferma_responsabile)
 
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
-        # TODO
+        pulsante_mostra_auto = ElevatedButton("Mostra", on_click=self.controller.handlerMostraAuto())
+        pulsante_cerca_auto = ElevatedButton("Cerca", on_click=self.controller.handlerCercaAuto())
 
         # --- LAYOUT ---
         self.page.add(
@@ -82,10 +85,14 @@ class View:
             ft.Divider(),
 
             # Sezione 3
-            # TODO
+            ft.Text("Automobili", size=20),
+            ft.Row(controls=[self.lista_auto ,pulsante_mostra_auto]),
+            ft.Divider(),
 
             # Sezione 4
-            # TODO
+            ft.Text("Cerca automobile", size=20),
+            ft.Row(controls=[self.input_modello_auto, self.lista_auto_ricerca, pulsante_cerca_auto]),
+            ft.Divider(),
         )
 
     def cambia_tema(self, e):

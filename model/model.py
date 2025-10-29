@@ -1,3 +1,8 @@
+import mysql
+from mysql.connector import cursor
+import mysql.connector
+
+from database import DB_connect
 from database.DB_connect import get_connection
 from model.automobile import Automobile
 from model.noleggio import Noleggio
@@ -31,12 +36,19 @@ class Autonoleggio:
         self._responsabile = responsabile
 
     def get_automobili(self) -> list[Automobile] | None:
-        """
-            Funzione che legge tutte le automobili nel database
-            :return: una lista con tutte le automobili presenti oppure None
-        """
 
-        # TODO
+        query = """
+            SELECT *
+            FROM automobili
+        """
+        conn = mysql.connector.connection(**DB_connect)
+        cursor = conn.cursor()
+        cursor.execute(query)
+        automobili = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        return automobili
 
     def cerca_automobili_per_modello(self, modello) -> list[Automobile] | None:
         """
@@ -44,4 +56,4 @@ class Autonoleggio:
             :param modello: il modello dell'automobile
             :return: una lista con tutte le automobili di marca e modello indicato oppure None
         """
-        # TODO
+        pass
