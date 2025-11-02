@@ -60,7 +60,6 @@ class Autonoleggio:
             automobili = []
             for row in risultato:
                 automobili.append(Automobile(*row))
-
             return automobili
 
         except mysql.connector.Error as err:
