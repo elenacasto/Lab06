@@ -65,8 +65,8 @@ class View:
         pulsante_conferma_responsabile = ft.ElevatedButton("Conferma", on_click=self.controller.conferma_responsabile)
 
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
-        pulsante_mostra_auto = ElevatedButton("Mostra", on_click=self.controller.handlerMostraAuto())
-        pulsante_cerca_auto = ElevatedButton("Cerca", on_click=self.controller.handlerCercaAuto())
+        pulsante_mostra_auto = ElevatedButton("Mostra", on_click=self.controller.handlerMostraAuto)
+        pulsante_cerca_auto = ElevatedButton("Cerca", on_click=self.controller.handlerCercaAuto)
 
         # --- LAYOUT ---
         self.page.add(
@@ -86,12 +86,14 @@ class View:
 
             # Sezione 3
             ft.Text("Automobili", size=20),
-            ft.Row(controls=[self.lista_auto ,pulsante_mostra_auto]),
+            ft.Row(spacing=200, controls=[pulsante_mostra_auto], alignment=ft.MainAxisAlignment.CENTER),
+            self.lista_auto,
             ft.Divider(),
 
             # Sezione 4
             ft.Text("Cerca automobile", size=20),
-            ft.Row(controls=[self.input_modello_auto, self.lista_auto_ricerca, pulsante_cerca_auto]),
+            ft.Row(spacing=200, controls=[self.input_modello_auto, pulsante_cerca_auto], alignment=ft.MainAxisAlignment.CENTER),
+            self.lista_auto_ricerca,
             ft.Divider(),
         )
 

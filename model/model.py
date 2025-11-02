@@ -39,16 +39,33 @@ class Autonoleggio:
 
         query = """
             SELECT *
-            FROM automobili
+            FROM automobile
         """
-        conn = mysql.connector.connection(**DB_connect)
-        cursor = conn.cursor()
-        cursor.execute(query)
-        automobili = cursor.fetchall()
-        cursor.close()
-        conn.close()
 
-        return automobili
+        conn = get_connection()
+        if conn is None:
+            return None
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute(query)
+
+            risultato = cursor.fetchall()
+            cursor.close()
+            conn.close()
+
+            if not risultato:
+                return None
+
+            automobili = []
+            for row in risultato:
+                automobili.append(Automobile(*row))
+
+            return automobili
+
+        except mysql.connector.Error as err:
+            print(f"Errore durante l'accesso al database {err}")
+            return None
 
     def cerca_automobili_per_modello(self, modello) -> list[Automobile] | None:
         """
@@ -56,4 +73,31 @@ class Autonoleggio:
             :param modello: il modello dell'automobile
             :return: una lista con tutte le automobili di marca e modello indicato oppure None
         """
-        pass
+
+        query = """
+        SELECT *
+        FROM automobile
+        WHERE modello = %s 
+        """
+        conn = get_connection()
+        if conn is None:
+            return None
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute(query, (modello,))
+            risultato = cursor.fetchall()
+            cursor.close()
+            conn.close()
+
+            if not risultato:
+                return None
+
+            automobili = []
+            for row in risultato:
+                automobili.append(Automobile(*row))
+            return automobili
+
+        except mysql.connector.Error as err:
+            print(f"Errore durante l'accesso al database {err}")
+            return None
